@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  #Java Application. Assumes sibling directory with Dockerfile
+  #
+  # 8080:8080 
+  #  -> | ->
+  java:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    ports:
+      - "8080:8080"
+    #Required for java container to resolve pubsub container hostname
+    depends_on:
+      - pubsub-mock
+  #Mock PubSub  
+  #
+  # 8085:8085
+  #  -> | ->
+  pubsub-mock:
+    build: ./docker/pubsub/
+    ports:
+      - "8085:8085"
+
